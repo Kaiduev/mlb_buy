@@ -4,6 +4,7 @@ import time
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from pyvirtualdisplay import Display
 
 email = 'steamkaiduev@gmail.com'
 password = 'Mlb123!123!'
@@ -56,6 +57,7 @@ def authenticate(browser):
             manually_login(browser)
     else:
         manually_login(browser)
+    browser.save_screenshot('auth.png')
     print(logged_in)
 
 
@@ -71,11 +73,14 @@ def buy(browser, selected_size, product_url):
     add_to_cart_button.click()
     time.sleep(15)
     checkout_button = browser.find_element(By.CSS_SELECTOR, 'button[data-trk-id="checkout-button-cart-vertical"]')
+    browser.save_screenshot('checkout.png')
     checkout_button.click()
     pass
 
 
 def main(selected_size, product_url):
+    display = Display(visible=False, size=(1400, 800))
+    display.start()
     options = webdriver.ChromeOptions()
     options.add_argument("--start-maximized")
     options.add_argument("--no-sandbox")
